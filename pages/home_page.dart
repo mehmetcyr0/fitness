@@ -281,6 +281,11 @@ class _HomePageState extends State<HomePage> {
                     Icons.list_alt,
                     () => Navigator.pushNamed(context, '/exercises'),
                   ),
+                  _buildQuickTrainingCard(
+                    'Üyelik Planları',
+                    Icons.card_membership,
+                    () => Navigator.pushNamed(context, '/subscription'),
+                  ),
                 ],
               ),
             ],

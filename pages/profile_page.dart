@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/auth_model.dart';
+import '../models/subscription_model.dart';
+import '../services/subscription_service.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -12,6 +14,7 @@ class _ProfilePageState extends State<ProfilePage> {
   int _selectedTab = 0;
   User? _user;
   DecodedToken? _decodedToken;
+  UserSubscription? _userSubscription;
   bool _isLoading = true;
 
   @override
@@ -24,10 +27,12 @@ class _ProfilePageState extends State<ProfilePage> {
     try {
       final user = await AuthHelper.getUser();
       final decodedToken = await AuthHelper.getDecodedToken();
+      final subscription = await SubscriptionService.getUserSubscription();
 
       setState(() {
         _user = user;
         _decodedToken = decodedToken;
+        _userSubscription = subscription;
         _isLoading = false;
       });
     } catch (e) {
@@ -145,7 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
             // Stats Cards
             Row(
               children: [
-                _buildStatCard('Toplam Mesafe', '670', 'mi'),
+                _buildStatCard('Toplam Mesafe', '670', 'km'),
                 const SizedBox(width: 12),
                 _buildStatCard('Toplam Kalori', '5.2', 'Kcal'),
                 const SizedBox(width: 12),
@@ -153,6 +158,13 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             const SizedBox(height: 32),
+
+            // Subscription Status
+            if (_userSubscription != null) ...[
+              _buildSubscriptionCard(),
+              const SizedBox(height: 32),
+            ],
+
             // Total Activity Section
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

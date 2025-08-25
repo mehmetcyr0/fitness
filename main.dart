@@ -16,6 +16,7 @@ import 'pages/weight_input_page.dart';
 import 'pages/nfc_entry_page.dart';
 import 'pages/exercise_page.dart';
 import 'pages/create_workout_page.dart'; // Added import
+import 'pages/subscription_page.dart';
 import 'models/auth_model.dart';
 
 void main() {
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
             '/exercises': (context) => const ExercisesPage(), // Added route
             '/create-workout': (context) =>
                 const CreateWorkoutPage(), // Added route
+            '/subscription': (context) => const SubscriptionPage(),
           },
         );
       },
