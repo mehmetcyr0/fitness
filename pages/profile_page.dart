@@ -525,4 +525,126 @@ class _ProfilePageState extends State<ProfilePage> {
       ],
     );
   }
+
+  Widget _buildSubscriptionCard() {
+    if (_userSubscription == null) return const SizedBox.shrink();
+
+    final subscription = _userSubscription!;
+    final isActive = subscription.isActive && !subscription.isExpired;
+    final isExpiringSoon = subscription.isExpiringSoon;
+
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () => Navigator.pushNamed(context, '/subscription'),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Üyelik Durumu',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.titleLarge?.color,
+                    ),
+                  ),
+                  Icon(
+                    isActive ? Icons.check_circle : Icons.error,
+                    color: isActive ? Colors.green : Colors.red,
+                    size: 24,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(
+                subscription.plan?.name ?? 'Bilinmeyen Plan',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).textTheme.titleMedium?.color,
+                ),
+              ),
+              const SizedBox(height: 8),
+              if (isActive) ...[
+                Row(
+                  children: [
+                    Icon(
+                      Icons.access_time,
+                      size: 16,
+                      color: isExpiringSoon ? Colors.orange : Theme.of(context).textTheme.bodyMedium?.color,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${subscription.remainingDays} gün kaldı',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: isExpiringSoon ? Colors.orange : Theme.of(context).textTheme.bodyMedium?.color,
+                        fontWeight: isExpiringSoon ? FontWeight.w600 : FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+                if (subscription.remainingEntries != null) ...[
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.fitness_center,
+                        size: 16,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${subscription.remainingEntries} giriş hakkı',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ] else ...[
+                Text(
+                  subscription.isExpired ? 'Süresi dolmuş' : 'Aktif değil',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.red,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      isActive ? 'Detayları görüntüle' : 'Plan satın al',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

@@ -86,6 +86,15 @@ class SettingsPage extends StatelessWidget {
                     onTap: () {},
                   ),
                   ListTile(
+                    leading: const Icon(Icons.card_membership),
+                    title: const Text('Üyelik Planları'),
+                    subtitle: const Text('Plan yönetimi ve satın alma'),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/subscription');
+                    },
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.privacy_tip),
                     title: const Text('Gizlilik'),
                     subtitle: const Text('Gizlilik ayarları'),
